@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -18,6 +19,9 @@ public:
 	{
 		m_hParent = hParent;
 		m_hWnd = GetDlgItem(m_hParent,id);
+		if(!IsWindow(m_hWnd)){
+			MessageBox(NULL,"不是有效的窗口句柄或ID!",NULL,MB_ICONERROR);
+		}
 		GetBorder(hParent);
 		SetAlign(align);
 	}
@@ -85,13 +89,17 @@ public:
 			}
 		}
 
-		if(rcNew.left<0
-			|| rcNew.top < 0
-			|| rcNew.right-rcNew.left < 0
-			|| rcNew.bottom-rcNew.top <0 )
-		{
-			return;
-		}
+// 		if(rcNew.left<0
+// 			|| rcNew.top < 0
+// 			|| rcNew.right-rcNew.left < 0
+// 			|| rcNew.bottom-rcNew.top <0 )
+// 		{
+// 			char str[128];
+// 			sprintf(str,"%d,%d,%d,%d",rcNew.left,rcNew.top,rcNew.right-rcNew.left,rcNew.bottom-rcNew.top);
+// 			MessageBox(m_hParent,str,"update",0);
+// 
+// 			return;
+// 		}
 
 		SetWindowPos(m_hWnd,HWND_TOP,rcNew.left,rcNew.top,rcNew.right-rcNew.left,rcNew.bottom-rcNew.top,SWP_NOZORDER);
 		SetFocus(SetFocus(m_hWnd));

@@ -24,6 +24,7 @@ public:
 	INT_PTR OnClose();
 	INT_PTR DoDefault(UINT uMsg,WPARAM wParam,LPARAM lParam);
 	INT_PTR OnSize(int width,int height){m_layout.SizeItems();return 0;}
+	INT_PTR OnGetDlgCode(WPARAM vk,MSG* msg);
 
 private:
 	AEditBox* m_editDesc;

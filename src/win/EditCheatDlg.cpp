@@ -71,3 +71,12 @@ INT_PTR AEditCheatDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 
 	return 0;
 }
+
+INT_PTR AEditCheatDlg::OnGetDlgCode(WPARAM vk,MSG* msg)
+{
+	if(!msg) return 0;
+	if(msg->hwnd == m_editScript->GetHwnd()){
+		return SetDlgResult(DLGC_WANTTAB);
+	}
+	return 0;
+}

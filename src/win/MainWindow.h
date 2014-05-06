@@ -45,6 +45,7 @@ public:
 	INT_PTR OnMouseMove(int key,int x,int y);
 	INT_PTR OnLButtonUp(int key,int x,int y);
 	INT_PTR OnNull(LPARAM lParam);
+	INT_PTR OnDropFiles(HDROP hDrop);
 
 
 private:
@@ -74,6 +75,7 @@ private:
 	HTREEITEM m_MenuhItem;
 	BOOL m_bDragging;
 	HTREEITEM m_hDraggingItem;
+	bool m_bSaving;	//表示当前是否正在保存所有xml文档,是就退出函数
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

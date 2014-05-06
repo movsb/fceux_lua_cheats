@@ -165,3 +165,8 @@ INT_PTR AEditBox::OnChar(int key)
 // 	}
 	return DODEFAULT;
 }
+
+INT_PTR AEditBox::OnGetDlgCode(WPARAM vk,MSG* msg)
+{
+	return DLGC_WANTALLKEYS;
+}

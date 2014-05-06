@@ -17,6 +17,8 @@ AWindowBase::AWindowBase()
 	m_WndProc = NULL;
 
 	m_ModalDialogResultCode = 0;
+
+	m_hModalDlg = NULL;
 }
 
 AWindowBase::~AWindowBase()
@@ -32,6 +34,7 @@ INT_PTR CALLBACK AWindowBase::WindowProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARA
 
 	switch(uMsg)
 	{
+	case WM_SETCURSOR:			return OnSetCursor(HWND(wParam),LOWORD(lParam),HIWORD(lParam));
 	case WM_PAINT:				return OnPaint();
 	case WM_COMMAND:			return OnCommand(HIWORD(wParam),LOWORD(wParam),HWND(lParam));
 	case WM_CLOSE:				return OnClose();
@@ -72,6 +75,8 @@ INT_PTR CALLBACK AWindowBase::WindowProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARA
 			typedef VOID (CALLBACK* TP)(HWND hwnd,UINT uMsg,UINT_PTR idEvent,DWORD dwTime);
 			return OnTimer(int(wParam),(TP)lParam);
 		}
+	case WM_GETDLGCODE:			return OnGetDlgCode(wParam,(MSG*)lParam);
+	case WM_ENTERIDLE:			return OnEnterIdle(int(wParam),HWND(lParam));
 		
 	default:					return this->DoDefault(uMsg,wParam,lParam);
 	}
@@ -273,4 +278,14 @@ DWORD AWindowBase::GetStyle() const
 void AWindowBase::SetStyle(DWORD dwStyle) const
 {
 	::SetWindowLongPtr(this->GetHwnd(),GWL_STYLE,(LONG)dwStyle);
+}
+
+INT_PTR AWindowBase::OnSetCursor(HWND hWnd, int code, int mouse)
+{
+	return DODEFAULT;
+}
+
+INT_PTR AWindowBase::OnEnterIdle(int mode, HWND hWnd)
+{
+	return DODEFAULT;
 }

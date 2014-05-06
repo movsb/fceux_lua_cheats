@@ -155,7 +155,6 @@ HTREEITEM AMainWindow::InsertRoot(const char* name,ACheatFile* pfile)
 	tvis.hParent = TVI_ROOT;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.itemex.mask = TVIF_TEXT|TVIF_PARAM;
-	tvis.itemex.iImage = 0;
 	tvis.itemex.pszText = (LPSTR)name;
 	tvis.itemex.lParam = (LPARAM)new ParamStruct(ParamStruct::PS_CHEAT,pfile);
 	return m_pTree->InsertItem(&tvis);
@@ -163,7 +162,11 @@ HTREEITEM AMainWindow::InsertRoot(const char* name,ACheatFile* pfile)
 
 bool AMainWindow::SaveAllCheatFiles()
 {
-	HTREEITEM hItem;
+	if(m_bSaving) return true;
+	m_bSaving = true;
+	extern HWND GetMainHWND();
+	::EnableWindow(GetMainHWND(),FALSE);
+	HTREEITEM hItem=0;
 	hItem = m_pTree->GetRoot();
 	while(hItem){
 		ParamStruct* ps = (ParamStruct*)m_pTree->GetItemLParam(hItem);
@@ -172,11 +175,24 @@ bool AMainWindow::SaveAllCheatFiles()
 			stringstream ss;
 			ss<<"是否保存修改: " << pfile->name << " ?";
 			if(MessageBox(string(ss.str()).c_str(),"保存修改",MB_YESNO|MB_DEFBUTTON1)==IDYES){
-				SaveCheatFile(hItem);
+				bool loop = true;
+				do{
+					if(SaveCheatFile(hItem)) loop=false;continue;
+					if(MessageBox("取消保存将丢失所作的修改, 你确定不保存?",
+						"保存失败",
+						MB_OKCANCEL|MB_DEFBUTTON2
+						) == IDOK
+					)
+					{
+						loop = false;
+					}
+				}while(loop);
 			}
 		}
 		hItem = m_pTree->GetNextItem(hItem,TVGN_NEXT);
 	}
+	m_bSaving = false;
+	::EnableWindow(GetMainHWND(),TRUE);
 	return true;
 }
 
@@ -209,12 +225,17 @@ bool AMainWindow::SaveCheatFile(HTREEITEM hItem)
 	}
 	if(!pfile->bNeedSaving){
 		//只可能是关闭文件
-
+		return true;
 	}else{
-		DumpCheatsToXml(hItem,pfile->path);
+		if(!DumpCheatsToXml(hItem,pfile->path)){
+			MessageBox("保存失败!","内部错误",MB_ICONERROR);
+			return false;
+		}
 		pfile->bNeedSaving=false;
+		return true;
 	}
 }
+
 bool AMainWindow::OpenCheatXml(const char* file)
 {
 	ACheatFile* pFile;
@@ -269,7 +290,7 @@ bool AMainWindow::DumpCheatsToXml(HTREEITEM hFileTree,void* pdoc)
 
 	//每完成一个节点才link
 
-	//XML文件声明
+	//XML declaration
 	TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0","GB2312","");
 	doc.LinkEndChild(declaration);
 
@@ -394,13 +415,13 @@ void AMainWindow::GetCheatParentAndSiblingsPointers(HTREEITEM hCurrent,void** pa
 	//取得父结点指针
 	HTREEITEM hTvParent = m_pTree->GetNextItem(hCurrent,TVGN_PARENT);
 	ParamStruct* psParent = (ParamStruct*)m_pTree->GetItemLParam(hTvParent);
-	//以下2选1
-	ACheatEntry* pParentEntry = (ACheatEntry*)psParent->pv1;
-	ACheatFile*  pParentFile = (ACheatFile*)psParent->pv1;
-	bool bIsParentFile = psParent->type==ParamStruct::PS_CHEAT;
+	assert(hTvParent!=NULL && psParent!=NULL && "AMainWindow::GetCheatParentAndSiblingsPointers");
 	assert(psParent->type==ParamStruct::PS_CHEAT || psParent->type==ParamStruct::PS_CHEAT_DIR);
 
-	assert(hTvParent!=NULL && psParent!=NULL && "AMainWindow::GetCheatParentAndSiblingsPointers");
+	//pv1-> CheatFile, pv2->CheatEntry
+	ACheatEntry* pParentEntry = (ACheatEntry*)psParent->pv2;
+	ACheatFile*  pParentFile = (ACheatFile*)psParent->pv1;
+	bool bIsParentFile = !pParentEntry;
 
 	//取得PrevSibling
 	HTREEITEM hTvPrevSibling = m_pTree->GetNextItem(hCurrent,TVGN_PREVIOUS);
@@ -459,7 +480,7 @@ void AMainWindow::AddCheatEntryPointers(ACheatEntry* pEntry,HTREEITEM hCurrent)
 	if(pNextEntry){
 		pNextEntry->prev = pEntry;
 	}
-	if(!pPrevEntry){
+	if(!pPrevEntry){ // 前一个entry是相对于当前节点层次来说的
 		if(bIsParentFile) pParentFile->entry  = pEntry;
 		else			  pParentEntry->child = pEntry;
 	}
@@ -498,10 +519,10 @@ void AMainWindow::FreeAllCheatFile(HTREEITEM hFile)
 void AMainWindow::FreeCheatEntry(ACheatEntry* pEntry)
 {
 	if(pEntry->type == ACheatEntry::TYPE_NODE){
-		//nothing to do with a node
+		//nothing else to do with a node
 	}else if(pEntry->type == ACheatEntry::TYPE_CHEAT){
 		auto& vs = pEntry->item.values;
-		for(auto s=vs.begin(); s!=vs.end(); ++s){
+		for(auto s=vs.begin(),e=vs.end(); s!=e; ++s){
 			delete *s;
 		}
 		vs.clear();
@@ -583,7 +604,6 @@ void AMainWindow::DeleteCheatNode(HTREEITEM hCurrent)
 	}
 }
 
-
 HTREEITEM AMainWindow::GetCheatFileNodeOfCheatOrCheatNode(HTREEITEM hItem)
 {
 	ParamStruct* ps = (ParamStruct*)m_pTree->GetItemLParam(hItem);
@@ -627,17 +647,16 @@ BOOL AMainWindow::MoveCheatBetweenNodes(HTREEITEM hFrom,HTREEITEM hTo)
 	int typet = psTo->type   == ParamStruct::PS_CHEAT_DIR || psTo->type==ParamStruct::PS_CHEAT;
 
 	HTREEITEM hInserted = 0;
-	const char* pszInertText=0;
+	const char* pszInsertText=0;
 	TVINSERTSTRUCT tvi = {0};
 
 	DelCheatEntryPointers(hFrom);
-	m_pTree->DeleteItem(hFrom);//没删除ps
+	m_pTree->DeleteItem(hFrom);//fixme:没删除ps
 
-	pszInertText = typef?pEntryFrom->node.name.c_str():pEntryFrom->item.name.c_str();
+	pszInsertText = typef?pEntryFrom->node.name.c_str():pEntryFrom->item.name.c_str();
 
-	tvi.itemex.mask = TVIF_IMAGE|TVIF_TEXT|TVIF_PARAM;
-	tvi.itemex.iImage = 0;
-	tvi.itemex.pszText = (LPTSTR)pszInertText;
+	tvi.itemex.mask = TVIF_TEXT|TVIF_PARAM;
+	tvi.itemex.pszText = (LPTSTR)pszInsertText;
 	tvi.item.lParam = (LPARAM)psFrom;
 
 	//这种&&||的写法是不是有点绕? - 把文件节点当作目录
@@ -667,7 +686,8 @@ BOOL AMainWindow::MoveCheatBetweenNodes(HTREEITEM hFrom,HTREEITEM hTo)
 }
 
 AMainWindow::AMainWindow():
-	m_bDragging(FALSE)
+	m_bDragging(FALSE),
+	m_bSaving(false)
 {
 	m_pTree = new ATreeView;
 	this->SetParent(NULL);
@@ -764,7 +784,7 @@ bool AMainWindow::ShowMenuFor(int type)
 
 	if(!hMenu) return false;
 	::GetCursorPos(&pt);
-	int id = (int)::TrackPopupMenu(hMenu,TPM_LEFTALIGN|TPM_RETURNCMD,pt.x,pt.y,0,this->GetHwnd(),NULL);
+	int id = (int)::TrackPopupMenu(hMenu,TPM_LEFTALIGN|TPM_RETURNCMD|TPM_NONOTIFY,pt.x,pt.y,0,this->GetHwnd(),NULL);
 	if(!id) return false;
 
 	switch(id)
@@ -788,8 +808,9 @@ bool AMainWindow::ShowMenuFor(int type)
 				if(id==IDM_CHEATFILE_CLOSE){
 					FreeAllCheatFile(m_MenuhItem);
 				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 	case IDM_CHEATFILE_VIEWFILE:
 		{
@@ -902,15 +923,14 @@ bool AMainWindow::ShowMenuFor(int type)
 			if(m_pCheatFileCurrent == m_MenuFile){
 				m_CheatInfoDlg->ShowCheatInfo(0,0);
 			}
-			FreeAllCheatFile(m_MenuhItem);
 			::DeleteFile(m_MenuFile->path.c_str());
+			FreeAllCheatFile(m_MenuhItem);
 			return true;
 		}
 		return false;
 	}
+	return false;
 }
-
-
 
 INT_PTR AMainWindow::HandleDblClick()
 {
@@ -1115,6 +1135,8 @@ INT_PTR AMainWindow::OnLButtonUp(int key,int x,int y)
 		ReleaseCapture();
 		ShowCursor(TRUE);
 
+		m_bDragging = FALSE;
+
 		if(hItem){
 			try{
 				MoveCheatBetweenNodes(m_hDraggingItem,hItem);
@@ -1126,8 +1148,6 @@ INT_PTR AMainWindow::OnLButtonUp(int key,int x,int y)
 				MessageBox(err,0,MB_ICONINFORMATION);
 			}
 		}
-
-		m_bDragging = FALSE;
 	}
 	return 0;
 }
@@ -1188,6 +1208,25 @@ INT_PTR AMainWindow::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 	return 0;
 }
 
+INT_PTR AMainWindow::OnDropFiles(HDROP hDrop)
+{
+	UINT cnt = DragQueryFile(hDrop,-1,0,0);
+	if(cnt==0) return 0;
+	for(UINT i=0; i<cnt; ++i){
+		char file[MAX_PATH]={0};
+		DragQueryFile(hDrop,i,file,sizeof(file)/sizeof(*file));
+		try{
+			OpenCheatXml(file);
+		}
+		catch(const char* s)
+		{
+			MessageBox(s,NULL,MB_ICONERROR);
+		}
+	}
+	DragFinish(hDrop);
+	return 0;
+}
+
 INT_PTR AMainWindow::OnNull(LPARAM lParam)
 {
 	ControlMessage* pcm = (ControlMessage*)lParam;
@@ -1220,7 +1259,7 @@ INT_PTR AMainWindow::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 	m_pTree->SetWindowPos(5,5,200,height-10);
 	m_CheatInfoDlg->SetWindowPos(210,5,width-210-5,height-5-5);
 
-	
+	DragAcceptFiles(TRUE);
 
 	this->CenterWindow(NULL);
 	this->ShowWindow(SW_SHOWNORMAL);

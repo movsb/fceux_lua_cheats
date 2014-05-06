@@ -79,10 +79,10 @@ INT_PTR ACheatFileInfoDlg::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 			ACheatFile* file = 0;
 			file = m_pFile?m_pFile:new ACheatFile;
 
-			file->name = m_editName->GetWindowText();
+			file->name   = m_editName->GetWindowText();
 			file->author = m_editAuthor->GetWindowText();
-			file->time = m_editTime->GetWindowText();
-			file->desc = m_editDesc->GetWindowText();
+			file->time   = m_editTime->GetWindowText();
+			file->desc   = m_editDesc->GetWindowText();
 			
 
 			if(m_pFile==0) m_pFile = file;

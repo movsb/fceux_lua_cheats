@@ -24,6 +24,7 @@ public:
 	INT_PTR OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl);
 	INT_PTR OnDropFiles(HDROP hDrop);
 	INT_PTR OnChar(int key);
+	INT_PTR OnGetDlgCode(WPARAM vk,MSG* msg);
 	INT_PTR DoDefault(UINT uMsg,WPARAM wParam,LPARAM lParam)
 	{
 		return CallWindowProc(m_WndProcOrig,this->GetHwnd(),uMsg,wParam,lParam);

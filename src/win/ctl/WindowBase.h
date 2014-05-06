@@ -148,7 +148,9 @@ public://窗口消息处理过程
 	virtual INT_PTR OnPaint(){return DODEFAULT;}
 	virtual INT_PTR OnShowWindow(BOOL bShow,BOOL bCallFromShowWindow){return DODEFAULT;}
 	virtual INT_PTR OnTimer(int nID,VOID (CALLBACK* TimerProc)(HWND hwnd,UINT uMsg,UINT_PTR idEvent,DWORD dwTime)){return DODEFAULT;}
-
+	virtual INT_PTR OnGetDlgCode(WPARAM vk,MSG* msg){return DODEFAULT;}
+	virtual INT_PTR OnSetCursor(HWND hWnd, int code, int mouse);
+	virtual INT_PTR OnEnterIdle(int mode, HWND hWnd);
 protected://窗口的相关成员
 	HWND m_hWnd;
 	UINT m_CtrlID;
@@ -157,6 +159,7 @@ protected://窗口的相关成员
 	WNDPROC m_WndProcOrig;
 	WNDPROC m_WndProc;
 	int m_ModalDialogResultCode;
+	HWND m_hModalDlg;
 
 public:
 	void AddWindow(AWindowBase* pw)
