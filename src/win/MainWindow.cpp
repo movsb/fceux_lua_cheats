@@ -162,8 +162,6 @@ HTREEITEM AMainWindow::InsertRoot(const char* name,ACheatFile* pfile)
 
 bool AMainWindow::SaveAllCheatFiles()
 {
-	if(m_bSaving) return true;
-	m_bSaving = true;
 	extern HWND GetMainHWND();
 	::EnableWindow(GetMainHWND(),FALSE);
 	HTREEITEM hItem=0;
@@ -191,7 +189,6 @@ bool AMainWindow::SaveAllCheatFiles()
 		}
 		hItem = m_pTree->GetNextItem(hItem,TVGN_NEXT);
 	}
-	m_bSaving = false;
 	::EnableWindow(GetMainHWND(),TRUE);
 	return true;
 }
@@ -686,8 +683,7 @@ BOOL AMainWindow::MoveCheatBetweenNodes(HTREEITEM hFrom,HTREEITEM hTo)
 }
 
 AMainWindow::AMainWindow():
-	m_bDragging(FALSE),
-	m_bSaving(false)
+	m_bDragging(FALSE)
 {
 	m_pTree = new ATreeView;
 	this->SetParent(NULL);
@@ -806,6 +802,8 @@ bool AMainWindow::ShowMenuFor(int type)
 		{
 			if(SaveCheatFile(m_MenuhItem)){
 				if(id==IDM_CHEATFILE_CLOSE){
+					bool r = m_xmls.Remove(m_MenuFile->path);
+					assert(r);
 					FreeAllCheatFile(m_MenuhItem);
 				}
 				return true;
@@ -924,6 +922,8 @@ bool AMainWindow::ShowMenuFor(int type)
 				m_CheatInfoDlg->ShowCheatInfo(0,0);
 			}
 			::DeleteFile(m_MenuFile->path.c_str());
+			bool r = m_xmls.Remove(m_MenuFile->path);
+			assert(r);
 			FreeAllCheatFile(m_MenuhItem);
 			return true;
 		}
@@ -1181,7 +1181,12 @@ INT_PTR AMainWindow::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 						it ++)
 					{
 						try{
+							if(m_xmls.CheckExists(*it)){
+								MessageBox(it->c_str(),"已跳过重复文件",MB_ICONINFORMATION);
+								continue;
+							}
 							OpenCheatXml(it->c_str());
+							m_xmls.Add(*it);	//保存已经打开的xml文件的路径
 						}
 						catch(const char* s)
 						{
@@ -1199,7 +1204,7 @@ INT_PTR AMainWindow::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 				if(dlg.GetDlgCode() == ACheatFileInfoDlg::RET_OK){
 					ACheatFile* file = dlg.GetFile();
 					file->bNeedSaving =  true;
-					OpenCheatXml(file);
+					OpenCheatXml(file);	//内存中的xml不保存到已打开列表中
 				}
 				return 0;
 			}
@@ -1216,7 +1221,12 @@ INT_PTR AMainWindow::OnDropFiles(HDROP hDrop)
 		char file[MAX_PATH]={0};
 		DragQueryFile(hDrop,i,file,sizeof(file)/sizeof(*file));
 		try{
+			if(m_xmls.CheckExists(file)){
+				MessageBox(file,"已跳过重复文件",MB_ICONINFORMATION);
+				continue;
+			}
 			OpenCheatXml(file);
+			m_xmls.Add(file);	//保存已经打开的xml文件的路径
 		}
 		catch(const char* s)
 		{
