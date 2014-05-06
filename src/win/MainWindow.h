@@ -65,6 +65,38 @@ private:
 private:
 	ACheatInfoDlg* m_CheatInfoDlg;
 	CLayout		   m_layout;
+
+	class COpenedFiles
+	{
+	public:
+		void Add(const string& fp)
+		{
+			m_files.push_back(fp);
+		}
+		bool Remove(const string& fp)
+		{
+			for(auto i=m_files.begin();i!=m_files.end(); i++){
+				if(*i == fp){
+					m_files.erase(i);
+					return true;				//只可能有一个
+				}
+			}
+			return false;
+		}
+		bool CheckExists(const string& fp)
+		{
+			for(auto i=m_files.begin(),e=m_files.end(); i!=e; i++){
+				if(*i == fp){
+					return true;
+				}
+			}
+			return false;
+		}
+	private:
+		vector<string> m_files;				//用来保存已经打开的xml文件,防止重复打开
+	};
+
+	COpenedFiles m_xmls;
 private:
 	ATreeView* m_pTree;
 	ParamStruct* m_MenuPS;
@@ -75,7 +107,6 @@ private:
 	HTREEITEM m_MenuhItem;
 	BOOL m_bDragging;
 	HTREEITEM m_hDraggingItem;
-	bool m_bSaving;	//表示当前是否正在保存所有xml文档,是就退出函数
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
