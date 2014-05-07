@@ -7,7 +7,7 @@
 class ACheatFileInfoDlg:public AWindowBase
 {
 public:
-	enum{RET_OK,RET_CANCEL,RET_CLOSE};
+	enum{RET_CLOSE,RET_OK,RET_CANCEL,};
 	ACheatFileInfoDlg(AWindowBase* parent,ACheatFile* pFile);
 	~ACheatFileInfoDlg();
 	ACheatFile* GetFile() const{return m_pFile;}

@@ -14,6 +14,7 @@ AEditCheatDlg::AEditCheatDlg(AWindowBase* parent,char* desc,char* lua)
 
 AEditCheatDlg::~AEditCheatDlg()
 {
+	DeleteObject(m_hFont);
 	delete m_editDesc;
 	delete m_editScript;
 }
@@ -48,12 +49,20 @@ INT_PTR AEditCheatDlg::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 INT_PTR AEditCheatDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 {
 	m_hWnd = hWnd;
+
+	LOGFONT lf={0};
+	GetObject(GetStockObject(DEFAULT_GUI_FONT),sizeof(lf),&lf);
+	lf.lfHeight = -16;
+	strcpy(lf.lfFaceName,"Î¢ÈíÑÅºÚ");
+	m_hFont=CreateFontIndirect(&lf);
+
 	m_editDesc->AttachCtrl(this,IDC_EDITCHEAT_DESC);
 	m_editScript->AttachCtrl(this,IDC_EDITCHEAT_SCRIPT);
 
-
 	m_editDesc->SubClass();
 	m_editScript->SubClass();
+
+	m_editScript->SendMessage(WM_SETFONT,WPARAM(m_hFont),MAKELPARAM(TRUE,0));
 
 	CenterWindow(GetParent()->GetHwnd());
 	ShowWindow(SW_SHOWNORMAL);

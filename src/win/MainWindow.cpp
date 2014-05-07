@@ -687,11 +687,18 @@ AMainWindow::AMainWindow():
 {
 	m_pTree = new ATreeView;
 	this->SetParent(NULL);
+
+	LOGFONT lf={0};
+	GetObject(GetStockObject(DEFAULT_GUI_FONT),sizeof(lf),&lf);
+	lf.lfWeight = -14;
+	strcpy(lf.lfFaceName,"Î¢ÈíÑÅºÚ");
+	m_hFont=CreateFontIndirect(&lf);
+
 	::CreateDialog(NULL,MAKEINTRESOURCE(IDD_MAIN_WINDOW),NULL,(DLGPROC)GetWindowThunk());
 }
 AMainWindow::~AMainWindow()
 {
-
+	DeleteObject(m_hFont);
 	delete m_pTree;
 }
 
@@ -1253,9 +1260,12 @@ INT_PTR AMainWindow::OnNull(LPARAM lParam)
 INT_PTR AMainWindow::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 {
 	m_hWnd = hWnd;
+	SendMessage(WM_SETFONT,WPARAM(m_hFont),MAKELPARAM(TRUE,0));
 	ShowWindow(SW_HIDE);
 	m_pTree->AttachCtrl(this,IDC_MAIN_TREE);
+	m_pTree->SendMessage(WM_SETFONT,WPARAM(m_hFont),MAKELPARAM(TRUE,0));
 	m_CheatInfoDlg = new ACheatInfoDlg(this);
+	m_CheatInfoDlg->SendMessage(WM_SETFONT,WPARAM(m_hFont),MAKELPARAM(TRUE,0));
 	m_CheatInfoDlg->EnableWindow(FALSE);
 	m_CheatInfoDlg->ShowWindow(SW_SHOW);
 

@@ -6,7 +6,9 @@
 class AEditCheatDlg:public AWindowBase
 {
 public:
-	enum{RET_OK,RET_CANCEL,RET_CLOSE};
+	//如果主窗口被被动Destroy, 那么宿主窗口会先被Destroy,然后才是此窗口
+	//此时如果依然返回OK的话, 就错了, 因为主窗口的list已经被移除了
+	enum{RET_CLOSE,RET_OK,RET_CANCEL,};
 public:
 	AEditCheatDlg(AWindowBase* parent,char* desc=0,char* lua=0);
 	~AEditCheatDlg();
@@ -31,6 +33,7 @@ private:
 	AEditBox* m_editScript;
 
 	CLayout m_layout;
+	HFONT m_hFont;
 
 private:
 	char* m_desc;

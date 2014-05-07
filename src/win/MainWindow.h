@@ -97,6 +97,7 @@ private:
 	};
 
 	COpenedFiles m_xmls;
+	HFONT m_hFont;
 private:
 	ATreeView* m_pTree;
 	ParamStruct* m_MenuPS;
