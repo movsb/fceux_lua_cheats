@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<NesCheat version="1.0">
+    <Info>
+        <Name>魂斗罗3</Name>
+        <Author>女孩不哭</Author>
+        <Desc></Desc>
+    </Info>
+    <Cheats>
+        <Node name="武器">
+            <Item>
+                <Name>BURNS</Name>
+                <Desc></Desc>
+                <Custom></Custom>
+                <Values>
+                    <Value>
+                        <Name>手枪(Pistol)</Name>
+                        <Script>A=0x7F&#x0D;&#x0A;memset(A,0x03,0x00)</Script>
+                    </Value>
+                    <Value>
+                        <Name>手雷(Hand Grenades)</Name>
+                        <Script>A=0x7F&#x0D;&#x0A;memset(A,0x03,0x01)</Script>
+                    </Value>
+                    <Value>
+                        <Name>机枪(Machine Gun)</Name>
+                        <Script>A=0x7F&#x0D;&#x0A;memset(A,0x03,0x02)</Script>
+                    </Value>
+                    <Value>
+                        <Name>Turbo Item</Name>
+                        <Script>A=0x7F&#x0D;&#x0A;if msgbox(&apos;是否开启 Turbo Item?&apos;,2)==0 then&#x0D;&#x0A;    memset(A,0x04,0x04)&#x0D;&#x0A;else&#x0D;&#x0A;    memset(A,0x04,0x00)&#x0D;&#x0A;end</Script>
+                    </Value>
+                    <Value>
+                        <Name>Rolling Attack</Name>
+                        <Script>A=0x7F&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Rolling Attack?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x08,0x08)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x08,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                </Values>
+            </Item>
+            <Item>
+                <Name>SMITH</Name>
+                <Desc></Desc>
+                <Custom></Custom>
+                <Values>
+                    <Value>
+                        <Name>手枪(Pistol)</Name>
+                        <Script>A=0x80&#x0D;&#x0A;memset(A,0x03,0x00)&#x0D;&#x0A;</Script>
+                    </Value>
+                    <Value>
+                        <Name>狙击步枪(Sniper Rifle)</Name>
+                        <Script>A=0x80&#x0D;&#x0A;memset(A,0x03,0x01)</Script>
+                    </Value>
+                    <Value>
+                        <Name>跟踪火箭(Homing Missile Launcher)</Name>
+                        <Script>A=0x80&#x0D;&#x0A;memset(A,0x03,0x02)&#x0D;&#x0A;</Script>
+                    </Value>
+                    <Value>
+                        <Name>Turbo Item</Name>
+                        <Script>A=0x80&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Turbo Item?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x04,0x04)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x04,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                    <Value>
+                        <Name>Rolling Attack</Name>
+                        <Script>A=0x80&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Rolling Attack?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x08,0x08)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x08,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                </Values>
+            </Item>
+            <Item>
+                <Name>IRON</Name>
+                <Desc></Desc>
+                <Custom></Custom>
+                <Values>
+                    <Value>
+                        <Name>手枪(Pistol)</Name>
+                        <Script>A=0x81&#x0D;&#x0A;memset(A,0x03,0x00)</Script>
+                    </Value>
+                    <Value>
+                        <Name>火焰喷射器(Flame Thrower)</Name>
+                        <Script>A=0x81&#x0D;&#x0A;memset(A,0x03,0x01)</Script>
+                    </Value>
+                    <Value>
+                        <Name>火箭筒(Bazooka)</Name>
+                        <Script>A=0x81&#x0D;&#x0A;memset(A,0x03,0x02)</Script>
+                    </Value>
+                    <Value>
+                        <Name>Turbo Item</Name>
+                        <Script>A=0x81&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Turbo Item?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x04,0x04)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x04,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                    <Value>
+                        <Name>Rolling Attack</Name>
+                        <Script>A=0x81&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Rolling Attack?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x08,0x08)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x08,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                </Values>
+            </Item>
+            <Item>
+                <Name>BEANS</Name>
+                <Desc></Desc>
+                <Custom></Custom>
+                <Values>
+                    <Value>
+                        <Name>手枪(Pistol)</Name>
+                        <Script>A=0x82&#x0D;&#x0A;memset(A,0x03,0x00)</Script>
+                    </Value>
+                    <Value>
+                        <Name>定时炸弹(Time Bomb)</Name>
+                        <Script>A=0x82&#x0D;&#x0A;memset(A,0x03,0x01)</Script>
+                    </Value>
+                    <Value>
+                        <Name>定时地雷(Time Mine)</Name>
+                        <Script>A=0x82&#x0D;&#x0A;memset(A,0x03,0x02)</Script>
+                    </Value>
+                    <Value>
+                        <Name>Turbo Item</Name>
+                        <Script>A=0x82&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Turbo Item?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x04,0x04)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x04,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                    <Value>
+                        <Name>Rolling Attack</Name>
+                        <Script>A=0x82&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;if msgbox(&apos;是否开启 Rolling Attack?&apos;,2)==0 then&#x0D;&#x0A;    V=bitset(V,0x08,0x08)&#x0D;&#x0A;else&#x0D;&#x0A;    V=bitset(V,0x08,0x00)&#x0D;&#x0A;end&#x0D;&#x0A;write(A,V)&#x0D;&#x0A;</Script>
+                    </Value>
+                </Values>
+            </Item>
+        </Node>
+        <Item>
+            <Name>生命数</Name>
+            <Desc></Desc>
+            <Custom></Custom>
+            <Values>
+                <Value>
+                    <Name>BURNS</Name>
+                    <Script>A=0xB3&#x0D;&#x0A;title=&apos;请输入BURNS的生命数(1~100)\n\n当前生命数:&apos; ..  btoh(read(A))&#x0D;&#x0A;R,V=dialog({title=title,min=1,max=100})&#x0D;&#x0A;if R then&#x0D;&#x0A; write(A,htob(V-1))&#x0D;&#x0A;end&#x0D;&#x0A;</Script>
+                </Value>
+                <Value>
+                    <Name>SMITH</Name>
+                    <Script>A=0xB4&#x0D;&#x0A;title=&apos;请输入SMITH的生命数(1~100)\n\n当前生命数:&apos; ..  btoh(read(A))&#x0D;&#x0A;R,V=dialog({title=title,min=1,max=100})&#x0D;&#x0A;if R then&#x0D;&#x0A; write(A,htob(V-1))&#x0D;&#x0A;end&#x0D;&#x0A;</Script>
+                </Value>
+                <Value>
+                    <Name>IRON</Name>
+                    <Script>A=0xB5&#x0D;&#x0A;title=&apos;请输入IRON的生命数(1~100)\n\n当前生命数:&apos; ..  btoh(read(A))&#x0D;&#x0A;R,V=dialog({title=title,min=1,max=100})&#x0D;&#x0A;if R then&#x0D;&#x0A; write(A,htob(V-1))&#x0D;&#x0A;end&#x0D;&#x0A;</Script>
+                </Value>
+                <Value>
+                    <Name>BEANS</Name>
+                    <Script>A=0xB6&#x0D;&#x0A;title=&apos;请输入BEANS的生命数(1~100)\n\n当前生命数:&apos; ..  btoh(read(A))&#x0D;&#x0A;R,V=dialog({title=title,min=1,max=100})&#x0D;&#x0A;if R then&#x0D;&#x0A; write(A,htob(V-1))&#x0D;&#x0A;end&#x0D;&#x0A;</Script>
+                </Value>
+            </Values>
+        </Item>
+        <Item>
+            <Name>隐身</Name>
+            <Desc>注意:隐身状态下按开始无法进入菜单</Desc>
+            <Custom></Custom>
+            <Values>
+                <Value>
+                    <Name>玩家1 - 隐身</Name>
+                    <Script>A=0x07C8&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;V=bitset(V,0x40,0x40)&#x0D;&#x0A;lock(A,V)</Script>
+                </Value>
+                <Value>
+                    <Name>玩家1 - 取消隐身</Name>
+                    <Script>A=0x07C8&#x0D;&#x0A;unlock(A,0)</Script>
+                </Value>
+                <Value>
+                    <Name>玩家2 - 隐身</Name>
+                    <Script>A=0x07C9&#x0D;&#x0A;V=read(A)&#x0D;&#x0A;V=bitset(V,0x40,0x40)&#x0D;&#x0A;lock(A,V)</Script>
+                </Value>
+                <Value>
+                    <Name>玩家2 - 取消隐身</Name>
+                    <Script>A=0x07C9&#x0D;&#x0A;unlock(A,0)</Script>
+                </Value>
+            </Values>
+        </Item>
+    </Cheats>
+</NesCheat>

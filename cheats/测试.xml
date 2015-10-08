@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<NesCheat version="1.0">
+    <Info>
+        <Name>测试</Name>
+        <Author></Author>
+        <Time></Time>
+        <Desc></Desc>
+    </Info>
+    <Cheats>
+        <Item>
+            <Name>新金手指</Name>
+            <Desc></Desc>
+            <Custom></Custom>
+            <Values />
+        </Item>
+        <Node name="新目录" />
+    </Cheats>
+</NesCheat>

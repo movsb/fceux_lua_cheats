@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<NesCheat version="1.0">
+    <Info>
+        <Name>第2次机器人大战</Name>
+        <Author>女孩不哭</Author>
+        <Desc></Desc>
+    </Info>
+    <Cheats>
+        <Item>
+            <Name>金钱</Name>
+            <Desc></Desc>
+            <Custom></Custom>
+            <Values>
+                <Value>
+                    <Name>输入金钱</Name>
+                    <Script>--[[&#x0D;&#x0A;地址:0x743A, 两字节, 十六进制, 最终结果为其10倍&#x0D;&#x0A;]]&#x0D;&#x0A;A=0x743A&#x0D;&#x0A;T=&apos;输入金钱数,最终为输入的值x10:&apos;&#x0D;&#x0A;T=T .. &apos;\n最大输入9999&apos;&#x0D;&#x0A;T = T .. &apos;\n\n当前金钱数:&apos;  .. ( read(A)+read(A+1)*256 )*10&#x0D;&#x0A;R,V = dialog({title=T,min=0,max=9999})&#x0D;&#x0A;if R then&#x0D;&#x0A;    V = V&#x0D;&#x0A;    write(A,V%256,V/256)&#x0D;&#x0A;end&#x0D;&#x0A;</Script>
+                </Value>
+            </Values>
+        </Item>
+    </Cheats>
+</NesCheat>
