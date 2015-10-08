@@ -1,6 +1,6 @@
 #include "ctl/WindowBase.h"
-
 #include "../tables/cheat.h"
+#include "D:\\系统备份\\SdkLayout\\SdkLayout\\sdklayout.h"
 
 class ACheatInfoDlg;
 class AMainWindow;
@@ -46,6 +46,8 @@ public:
 	INT_PTR OnLButtonUp(int key,int x,int y);
 	INT_PTR OnNull(LPARAM lParam);
 	INT_PTR OnDropFiles(HDROP hDrop);
+	virtual INT_PTR OnVScroll(WPARAM wParam,HWND hScrollNull){m_layout.ProcessScrollMessage(WM_VSCROLL,wParam, m_lParam);return 0;}
+	virtual INT_PTR OnHScroll(WPARAM wParam, HWND hScrollNUll){m_layout.ProcessScrollMessage(WM_HSCROLL,wParam, m_lParam);return 0;}
 
 
 private:
@@ -64,7 +66,7 @@ private:
 
 private:
 	ACheatInfoDlg* m_CheatInfoDlg;
-	CLayout		   m_layout;
+	SdkLayout::CSdkLayout m_layout;
 
 	class COpenedFiles
 	{

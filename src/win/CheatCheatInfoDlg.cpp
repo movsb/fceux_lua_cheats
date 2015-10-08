@@ -37,14 +37,6 @@ INT_PTR ACheatCheatInfoDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitPar
 {
 	m_hWnd = hWnd;
 
-	m_layout.Add(IDC_EDITCHEATITEM_NAME,hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeHorz));
-	m_layout.Add(IDC_EDITCHEATITEM_EDIT,hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeHorz|LayoutItem::kRisizeVert));
-	m_layout.Add(IDC_EDITCHEATITEM_CUSTOM,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_EDITCHEATITEM_DESC,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDOK,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kBOTTOM));
-	m_layout.Add(IDCANCEL,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kBOTTOM));
-
-
 	m_editName		->AttachCtrl(this,IDC_EDITCHEATITEM_NAME);
 	m_editEdit		->AttachCtrl(this,IDC_EDITCHEATITEM_EDIT);
 
@@ -56,6 +48,9 @@ INT_PTR ACheatCheatInfoDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitPar
 
 	m_desc = m_pEntry->item.desc;
 	m_custom = m_pEntry->item.custom;
+
+	m_layout.SetLayout(hWnd, MAKEINTRESOURCE(IDR_RCDATA4), GetModuleHandle(NULL));
+	m_layout.ResizeLayout();
 
 	CenterWindow(GetParent()->GetHwnd());
 	ShowWindow(SW_SHOW);
@@ -101,4 +96,10 @@ INT_PTR ACheatCheatInfoDlg::OnClose()
 {
 	EndDialog(IDCANCEL);
 	return SetDlgResult(TRUE);
+}
+
+INT_PTR ACheatCheatInfoDlg::OnSize( int width,int height )
+{
+	m_layout.ResizeLayout();
+	return 0;
 }

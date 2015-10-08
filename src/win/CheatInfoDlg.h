@@ -3,6 +3,7 @@
 
 #include "ctl/WindowBase.h"
 #include "../tables/cheat.h"
+#include "D:\\系统备份\\SdkLayout\\SdkLayout\\stdafx.h"
 
 
 class ACheatInfoDlg:public AWindowBase
@@ -18,8 +19,9 @@ public:
 	INT_PTR OnNotify(LPNMHDR phdr);
 	INT_PTR OnMouseMove(int key,int x,int y);
 	INT_PTR OnLButtonUp(int key,int x,int y);
-	INT_PTR OnSize(int width,int height){m_layout.SizeItems();UpdateListHeaderSize();return 0;}
-
+	INT_PTR OnSize(int width,int height);
+	INT_PTR OnVScroll(WPARAM wParam,HWND hScrollNull){m_layout.ProcessScrollMessage(WM_VSCROLL,wParam, m_lParam);return 0;}
+	INT_PTR OnHScroll(WPARAM wParam, HWND hScrollNUll){m_layout.ProcessScrollMessage(WM_HSCROLL,wParam, m_lParam);return 0;}
 
 public:
 	void ShowCheatInfo(ACheatFile* file,ACheatEntry* pEntry);
@@ -32,6 +34,7 @@ private:
 	void UpdateListHeaderSize();
 
 private:
+	SdkLayout::CSdkLayout m_layout;
 	ACheatEntry* m_pEntry;
 	
 	//bool m_bExpanded;
@@ -44,8 +47,6 @@ private:
 	AListView*  m_CheatsList;
 	ACheatFile* m_pFile;
 
-	CLayout		m_layout;
-	
 };
 
 #endif//!__CHEAT_INFO_DLG_H__

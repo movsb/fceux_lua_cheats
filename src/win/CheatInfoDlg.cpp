@@ -536,9 +536,7 @@ INT_PTR ACheatInfoDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 	m_hWnd = hWnd;
 
 	m_editName->AttachCtrl(this,IDC_CHEAT_CHEAT_NAME);
-
 	m_CheatsList->AttachCtrl(this,IDC_CHEAT_CHEATSLIST);
-
 	m_editName->SubClass();
 
 	InitControls();
@@ -546,14 +544,8 @@ INT_PTR ACheatInfoDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 	hThisDlg = hWnd;
 	ThisDlg = this;
 
-	m_layout.Add(m_editName->GetHwnd(),hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeHorz));
-	m_layout.Add(m_CheatsList->GetHwnd(),hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeHorz|LayoutItem::kRisizeVert));
-	m_layout.Add(IDC_CHEAT_CHEATINFO,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_CHEAT_EXECLUA,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_CHEAT_CUSTOM,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_CHEAT_EDITSCRIPT,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_CHEAT_ADDLUA,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
-	m_layout.Add(IDC_CHEAT_DELETELUA,hWnd,LayoutItem::Align(LayoutItem::kRIGHT|LayoutItem::kTOP));
+	m_layout.SetLayout(hWnd, MAKEINTRESOURCE(IDR_RCDATA2),GetModuleHandle(NULL));
+	m_layout.ResizeLayout();
 
 	return TRUE;
 }
@@ -724,7 +716,8 @@ INT_PTR ACheatInfoDlg::OnLButtonUp(int key,int x,int y)
 			m_CheatsList->SetItemState(-1,0,LVIS_SELECTED);
 			m_CheatsList->SetItemState(iItem,LVIS_SELECTED,LVIS_SELECTED);
 			MoveItemToAnotherPlace(m_iDraggingItem,iItem);
-			m_pFile->bNeedSaving = true;
+			if(m_iDraggingItem != iItem)
+				m_pFile->bNeedSaving = true;
 		}
 		m_bDragging = false;
 	}
@@ -882,6 +875,14 @@ INT_PTR ACheatInfoDlg::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 	return 0;
 }
 
+
+INT_PTR ACheatInfoDlg::OnSize( int width,int height )
+{
+	m_layout.ResizeLayout();
+	UpdateListHeaderSize();	
+	return 0;
+}
+
 void ACheatInfoDlg::ShowCheatInfo(ACheatFile* file,ACheatEntry* pEntry)
 {
 
@@ -908,12 +909,9 @@ void ACheatInfoDlg::ShowCheatInfo(ACheatFile* file,ACheatEntry* pEntry)
 	//¸üÐÂNameºÍÃèÊö
 	m_editName->SetWindowText(pEntry->item.name.c_str());
 	
-	//lists to lv
-	auto& v = m_pEntry->item.values;
-	auto s = v.begin();
-	auto e = v.end();
-	for(; s!=e; ++s){
-		AddListItem((*s)->name.c_str(),0);
+	//lists items all to lv
+	for(auto i : m_pEntry->item.values){
+		AddListItem(i->name.c_str(),0);
 	}
 }
 

@@ -14,6 +14,7 @@ using namespace std;
 #include "ctl/App.h"
 #include "MainWindow.h"
 
+#pragma comment(lib,"C:\\Users\\YangTao\\Desktop\\SdkLayout\\bin\\SdkLayout_D.lib")
 
 AApp* theApp = new AApp;
 
@@ -175,7 +176,7 @@ bool AMainWindow::SaveAllCheatFiles()
 			if(MessageBox(string(ss.str()).c_str(),"保存修改",MB_YESNO|MB_DEFBUTTON1)==IDYES){
 				bool loop = true;
 				do{
-					if(SaveCheatFile(hItem)) loop=false;continue;
+					if(SaveCheatFile(hItem)) {loop=false;continue;}
 					if(MessageBox("取消保存将丢失所作的修改, 你确定不保存?",
 						"保存失败",
 						MB_OKCANCEL|MB_DEFBUTTON2
@@ -519,8 +520,8 @@ void AMainWindow::FreeCheatEntry(ACheatEntry* pEntry)
 		//nothing else to do with a node
 	}else if(pEntry->type == ACheatEntry::TYPE_CHEAT){
 		auto& vs = pEntry->item.values;
-		for(auto s=vs.begin(),e=vs.end(); s!=e; ++s){
-			delete *s;
+		for(auto i : vs){
+			delete i;
 		}
 		vs.clear();
 	}else{
@@ -958,7 +959,8 @@ INT_PTR AMainWindow::HandleDblClick()
 
 INT_PTR AMainWindow::OnSize(int width,int height)
 {
-	m_layout.SizeItems();
+	RECT rc = {0,0,width, height};
+	m_layout.ResizeLayout(rc);
 	return 0;
 }
 
@@ -1271,22 +1273,17 @@ INT_PTR AMainWindow::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 
 	::SetMenu(hWnd,::LoadMenu(theApp->GetAppInstance(),MAKEINTRESOURCE(IDR_MENU_MAIN)));
 
-	RECT rc;
-	GetClientRect(&rc);
-	int height = rc.bottom;
-	int width=rc.right;
-	//if(GetMenu(hWnd)) height -= GetSystemMetrics(SM_CYMENU);
-	m_pTree->SetWindowPos(5,5,200,height-10);
-	m_CheatInfoDlg->SetWindowPos(210,5,width-210-5,height-5-5);
-
 	DragAcceptFiles(TRUE);
 
 	this->CenterWindow(NULL);
 	this->ShowWindow(SW_SHOWNORMAL);
 	InitTreeViewStyles();
 
-	m_layout.Add(m_pTree->GetHwnd(),hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeVert));
-	m_layout.Add(m_CheatInfoDlg->GetHwnd(),hWnd,LayoutItem::Align(LayoutItem::kLEFT|LayoutItem::kTOP|LayoutItem::kRisizeVert|LayoutItem::kRisizeHorz));
+	m_layout.SetLayout(hWnd, MAKEINTRESOURCE(IDR_RCDATA1),GetModuleHandle(NULL));
+	SdkLayout::CControlUI* pControl = new SdkLayout::CControlUI;
+	//pControl->SetHWND(m_CheatInfoDlg->GetHwnd(), m_layout.GetManager());
+	m_layout.FindControl(_T("client"))->ToHorizontalUI()->Add(pControl);
+	m_layout.ResizeLayout();
 
 	return TRUE;
 }

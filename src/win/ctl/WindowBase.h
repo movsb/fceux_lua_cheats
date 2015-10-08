@@ -8,7 +8,6 @@
 
 #include "Thunk.h"
 #include "../debug.h"
-#include "Layout.h"
 
 class AWindowBase;
 struct ControlMessage
@@ -137,6 +136,7 @@ public://窗口消息处理过程
 	virtual INT_PTR OnSizing(WPARAM wParam,LPRECT pRect){return DODEFAULT;}
 	virtual INT_PTR OnDropFiles(HDROP hDrop){return DODEFAULT;}
 	virtual INT_PTR OnVScroll(WPARAM wParam,HWND hScrollNull){return DODEFAULT;}
+	virtual INT_PTR OnHScroll(WPARAM wParam, HWND hScrollNUll){return DODEFAULT;}
 	virtual INT_PTR OnContextMenu(HWND hWnd,int x,int y){return DODEFAULT;}
 	virtual INT_PTR OnMouseWheel(int delta,int key,int x,int y){return DODEFAULT;}
 	virtual INT_PTR OnMouseMove(int key,int x,int y){return DODEFAULT;}

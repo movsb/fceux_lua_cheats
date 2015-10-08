@@ -56,6 +56,7 @@ INT_PTR CALLBACK AWindowBase::WindowProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARA
 	case WM_DROPFILES:			return OnDropFiles(HDROP(wParam));
 		
 	case WM_VSCROLL:			return OnVScroll(wParam,HWND(lParam));
+	case WM_HSCROLL:			return OnHScroll(wParam, HWND(lParam));
 	case WM_CONTEXTMENU:		return OnContextMenu(HWND(wParam),GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
 		
 	case WM_MOUSEWHEEL:			return OnMouseWheel((int)short(HIWORD(wParam)),LOWORD(wParam),LOWORD(lParam),HIWORD(lParam));

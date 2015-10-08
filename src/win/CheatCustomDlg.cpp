@@ -110,6 +110,9 @@ INT_PTR ACheatCustomDlg::OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam)
 
 	*m_phModal = hWnd;
 
+	m_layout.SetLayout(hWnd, MAKEINTRESOURCE(IDR_RCDATA6), GetModuleHandle(NULL));
+	m_layout.ResizeLayout();
+
 	ShowWindow(SW_SHOWNORMAL);
 	m_editCustom->SetFocus();
 	return FALSE;
@@ -149,5 +152,11 @@ INT_PTR ACheatCustomDlg::OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl)
 			return SetDlgResult(0);
 		}
 	}
+	return 0;
+}
+
+INT_PTR ACheatCustomDlg::OnSize( int width,int height )
+{
+	m_layout.ResizeLayout();
 	return 0;
 }

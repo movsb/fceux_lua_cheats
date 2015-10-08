@@ -2,9 +2,10 @@
 #define __CHEAT_CUSTOM_DLG_H__
 
 #include "ctl/WindowBase.h"
+#include <SdkLayout.h>
 #include <string>
 using namespace std;
-//#include "../tables/cheat.h"
+
 
 typedef struct lua_State lua_State;
 
@@ -19,7 +20,9 @@ public:
 	INT_PTR OnInitDialog(HWND hWnd,HWND hWndFocus,LPARAM InitParam);
 	INT_PTR OnCommand(int codeNotify,int ctrlID,HWND hWndCtrl);
 	INT_PTR OnClose();
-
+	INT_PTR OnSize(int width,int height);
+	INT_PTR OnVScroll(WPARAM wParam,HWND hScrollNull){m_layout.ProcessScrollMessage(WM_VSCROLL,wParam, m_lParam);return 0;}
+	INT_PTR OnHScroll(WPARAM wParam, HWND hScrollNUll){m_layout.ProcessScrollMessage(WM_HSCROLL,wParam, m_lParam);return 0;}
 public:
 	int GetValue(){return m_Value;}
 
@@ -29,6 +32,7 @@ private:
 	bool LuaOnOk(int val);
 
 private:
+	SdkLayout::CSdkLayout m_layout;
 	HWND*		m_phModal;
 	lua_State*	m_Lua;
 	int			m_Value;
