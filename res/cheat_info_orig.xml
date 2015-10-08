@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+    <Font name="微软雅黑" size="12" default="true"/>
+    <Horizontal>
+        <Vertical width="40">
+            <Control id="CHEATINFO_STATIC_NAME" height="20"/>
+            <Control id="CHEATINFO_STATIC_VALUES" height="20"/>
+        </Vertical>
+        <Vertical>
+            <Control id="IDC_CHEAT_CHEAT_NAME" height="20"/>
+			<Control height="5" />
+            <Control id="IDC_CHEAT_CHEATSLIST"/>
+        </Vertical>
+		<Control width="5" />
+        <Vertical width="50">
+            <Control id="IDC_CHEAT_CHEATINFO" height="25"/>
+            <Control id="IDC_CHEAT_EXECLUA" height="35"/>
+            <Control id="IDC_CHEAT_CUSTOM" height="25"/>
+            <Control />
+            <Control id="IDC_CHEAT_EDITSCRIPT" height="25"/>
+            <Control id="IDC_CHEAT_ADDLUA" height="25"/>
+            <Control id="IDC_CHEAT_DELETELUA" height="25"/>
+        </Vertical>
+    </Horizontal>
+</Window>

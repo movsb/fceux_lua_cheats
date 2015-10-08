@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+    <Font name="微软雅黑" size="12" default="true"/>
+	<Horizontal inset="5,5,5,5">
+		<Vertical>
+			<Horizontal height="20">
+				<Control id="EDIT_CHEATITEM_STATIC_NAME" width="30"/>
+				<Control id="IDC_EDITCHEATITEM_NAME"/>
+			</Horizontal>
+			<Control height="3"/>
+			<Control id="IDC_EDITCHEATITEM_EDIT" />
+		</Vertical>
+		<Control width="5"/>
+		<Vertical width="75">
+			<Control height="20"/>
+			<Control id="IDC_EDITCHEATITEM_DESC" height="25"/>
+			<Control id="IDC_EDITCHEATITEM_CUSTOM" height="25"/>
+			<Control />
+			<Control id="IDOK" height="25"/>
+			<Control id="IDCANCEL" height="25"/>
+		</Vertical>
+	</Horizontal>
+</Window>
+
+		

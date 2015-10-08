@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+    <Font name="微软雅黑" size="12" default="true"/>
+	<Vertical inset="5,5,5,5">
+		<Horizontal height="20">
+			<Control id="CHEATFILE_STATIC_NAME" width="30"/>
+			<Control id="IDC_CHEATFILE_NAME" />
+		</Horizontal>
+		<Control height="3"/>
+		<Horizontal height="20">
+			<Control id="CHEATFILE_STATIC_AUTHOR" width="30"/>
+			<Control id="IDC_CHEATFILE_AUTHOR" />
+		</Horizontal>
+		<Control height="3"/>
+		<Horizontal height="20">
+			<Control id="CHEATFILE_STATIC_TIME" width="30"/>
+			<Control id="IDC_CHEATFILE_TIME" />
+		</Horizontal>
+		<Control height="3"/>	
+		<Horizontal>
+			<Control id="CHEATFILE_STATIC_DESC" width="30" height="20"/>
+			<Control id="IDC_CHEATFILE_DESC" />
+		</Horizontal>
+		<Control height="5"/>
+		<Horizontal height="25">
+			<Control />
+			<Control id="IDC_CHEATFILE_BTNOK" width="40"/>
+			<Control id="IDC_CHEATFILE_BTNCANCEL" width="40"/>
+		</Horizontal>
+	</Vertical>
+</Window>
+
+			

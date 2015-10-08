@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+    <Font name="微软雅黑" size="12" default="true"/>
+	<Vertical inset="5,5,5,5">
+		<Horizontal minheight="55">
+			<Control id="IDC_CUSTOMCHEAT_STATIC" />
+			<Control width="5" />
+			<Vertical width="50">
+				<Control id="IDOK" height="25"/>
+				<Control id="IDCANCEL" height="25"/>
+				<Control height="5" />
+			</Vertical>
+		</Horizontal>
+		<Control height=5" />
+		<Control id="IDC_CUSTOMCHEAT_EDIT" height="25" />
+	</Vertical>
+</Window>
+
+			

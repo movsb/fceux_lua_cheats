@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+	<Font name="微软雅黑" size="12" default="true"/>
+	<Font name="微软雅黑" size="16"/>
+	<Vertical inset="5,5,5,5">
+		<Horizontal>
+			<Vertical width="40">
+				<Control id="EDIT_CHEAT_STATIC_DESC" height="20"/>
+				<Control id="EDIT_CHEAT_STATIC_SCRIPT" height="20"/>
+			</Vertical>
+			<Vertical>
+				<Control id="IDC_EDITCHEAT_DESC" height="20"/>
+				<Control height="3" />
+				<Control id="IDC_EDITCHEAT_SCRIPT" font="1"/>
+			</Vertical>
+		</Horizontal>
+		<Horizontal height="30" inset="0,5,0,0">
+			<Control/>
+			<Control id="IDC_EDITCHEAT_OK" width="40"/>
+			<Control id="IDC_EDITCHEAT_CANCEL" width="40"/>
+		</Horizontal>
+	</Vertical>
+</Window>

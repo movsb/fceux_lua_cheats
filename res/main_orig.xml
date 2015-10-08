@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window>
+	<Font name="微软雅黑" size="12" default="true"/>
+	<Horizontal name="client" inset="5,5,5,5">
+		<Control id="IDC_MAIN_TREE" width="200"/>
+		<Control width="5" />
+	</Horizontal>
+</Window>
