@@ -1,0 +1,14 @@
+Files src/boards/datalatch.cpp and src-orig/boards/datalatch.cpp differ
+Files src/cart.cpp and src-orig/cart.cpp differ
+Files src/config.cpp and src-orig/config.cpp differ
+Only in src/drivers/win: CheatInterface.cpp
+Only in src/drivers/win: CheatInterface.h
+Files src/drivers/win/main.cpp and src-orig/drivers/win/main.cpp differ
+Only in src/drivers/win: mymain.cpp
+Only in src/drivers/win: res.aps
+Files src/drivers/win/res.rc and src-orig/drivers/win/res.rc differ
+Files src/drivers/win/resource.h and src-orig/drivers/win/resource.h differ
+Files src/drivers/win/window.cpp and src-orig/drivers/win/window.cpp differ
+Files src/fceu.cpp and src-orig/fceu.cpp differ
+Files src/file.cpp and src-orig/file.cpp differ
+Files src/utils/xstring.cpp and src-orig/utils/xstring.cpp differ
